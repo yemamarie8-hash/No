@@ -7,15 +7,15 @@ module.exports = {
     name: "animewallpaper",
     aliases: ["aniwall"],
     version: "1.0",
-    author: "Saimx69x",
+    author: "Christus",
     role: 0,
     countDown: 5,
     longDescription: {
-      en: "Fetch anime wallpapers and return specified number of images.",
+      fr: "Récupère des fonds d'écran d'anime et renvoie le nombre spécifié d'images.",
     },
     category: "image",
     guide: {
-      en: "{pn} <title> - <count>\nExample: {pn} Naruto - 10",
+      fr: "{pn} <titre> - <nombre>\nExemple : {pn} Naruto - 10",
     },
   },
 
@@ -23,12 +23,11 @@ module.exports = {
     try {
       if (!args[0]) {
         return api.sendMessage(
-          `❌ Please provide an anime title.\nExample: /aniwall Naruto - 10`,
+          `❌ Veuillez fournir un titre d'anime.\nExemple : /aniwall Naruto - 10`,
           event.threadID,
           event.messageID
         );
       }
-
 
       let input = args.join(" ");
       let count = 5;
@@ -45,7 +44,7 @@ module.exports = {
 
       if (data.length === 0) {
         return api.sendMessage(
-          `❌ No wallpapers found for "${input}".`,
+          `❌ Aucun fond d'écran trouvé pour "${input}".`,
           event.threadID,
           event.messageID
         );
@@ -62,12 +61,11 @@ module.exports = {
           await fs.promises.writeFile(imgPath, imgRes.data);
           attachments.push(fs.createReadStream(imgPath));
         } catch (e) {
-          console.warn(`⚠️ Failed to fetch image ${i + 1}:`, e.message);
+          console.warn(`⚠️ Impossible de récupérer l'image ${i + 1} :`, e.message);
         }
       }
 
-  
-      const bodyMsg = `✅ Here's your anime wallpapers for "${input}"\n🖼 Total Images: ${attachments.length}`;
+      const bodyMsg = `✅ Voici vos fonds d'écran d'anime pour "${input}"\n🖼 Nombre total d'images : ${attachments.length}`;
       await api.sendMessage(
         { body: bodyMsg, attachment: attachments },
         event.threadID,
@@ -78,9 +76,9 @@ module.exports = {
         await fs.promises.rm(cacheDir, { recursive: true, force: true });
       }
     } catch (err) {
-      console.error("❌ AnimeWallpaper Command Error:", err);
+      console.error("❌ Erreur de la commande AnimeWallpaper :", err);
       return api.sendMessage(
-        `⚠️ Error: ${err.message}`,
+        `⚠️ Erreur : ${err.message}`,
         event.threadID,
         event.messageID
       );
