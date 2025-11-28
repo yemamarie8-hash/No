@@ -9,12 +9,11 @@ module.exports = {
 		countDown: 5,
 		role: 0,
 		description: {
-			vi: "Tìm app trên appstore",
-			en: "Search app on appstore"
+			fr: "Rechercher une application sur l'App Store",
 		},
-		category: "software",
-		guide: "   {pn}: <keyword>"
-			+ "\n   - Example:"
+		category: "logiciel",
+		guide: "   {pn}: <mot-clé>"
+			+ "\n   - Exemple:"
 			+ "\n   {pn} PUBG",
 		envConfig: {
 			limitResult: 3
@@ -22,24 +21,21 @@ module.exports = {
 	},
 
 	langs: {
-		vi: {
-			missingKeyword: "Bạn chưa nhập từ khóa",
-			noResult: "Không tìm thấy kết quả nào cho từ khóa %1"
-		},
-		en: {
-			missingKeyword: "You haven't entered any keyword",
-			noResult: "No result found for keyword %1"
+		fr: {
+			missingKeyword: "❌ Vous n'avez pas entré de mot-clé",
+			noResult: "❌ Aucun résultat trouvé pour le mot-clé : %1"
 		}
 	},
 
 	onStart: async function ({ message, args, commandName, envCommands, getLang }) {
 		if (!args[0])
 			return message.reply(getLang("missingKeyword"));
+		
 		let results = [];
 		try {
 			results = (await itunes({
 				entity: "software",
-				country: "VN",
+				country: "FR",
 				term: args.join(" "),
 				limit: envCommands[commandName].limitResult
 			})).results;
@@ -50,18 +46,17 @@ module.exports = {
 
 		if (results.length > 0) {
 			let msg = "";
-			const pedningImages = [];
+			const pendingImages = [];
 			for (const result of results) {
-				msg += `\n\n- ${result.trackCensoredName} by ${result.artistName}, ${result.formattedPrice} and rated ${"🌟".repeat(result.averageUserRating)} (${result.averageUserRating.toFixed(1)}/5)`
+				msg += `\n\n- ${result.trackCensoredName} par ${result.artistName}, ${result.formattedPrice} et noté ${"🌟".repeat(result.averageUserRating)} (${result.averageUserRating.toFixed(1)}/5)`
 					+ `\n- ${result.trackViewUrl}`;
-				pedningImages.push(await getStreamFromURL(result.artworkUrl512 || result.artworkUrl100 || result.artworkUrl60));
+				pendingImages.push(await getStreamFromURL(result.artworkUrl512 || result.artworkUrl100 || result.artworkUrl60));
 			}
 			message.reply({
 				body: msg,
-				attachment: await Promise.all(pedningImages)
+				attachment: await Promise.all(pendingImages)
 			});
-		}
-		else {
+		} else {
 			message.reply(getLang("noResult", args.join(" ")));
 		}
 	}
