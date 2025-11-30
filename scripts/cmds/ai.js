@@ -84,7 +84,7 @@ const handleAIRequest = async (api, event, userInput, message, isReply = false) 
 
     // Remplacer Shizu / Shizuka par Christus AI ou Christus Bot
     finalReply = finalReply
-      .replace(/🎀\s*𝗦𝗵𝗶𝘇𝘂/gi, "🗿 𝐂𝐇𝐑𝐈𝐒𝐓𝐔𝐒 𝐁𝐎𝐓")
+      .replace(/🎀\s*𝗦𝗵𝗶𝘇𝘂/gi, "🗿 𝐂𝐇𝐑𝐈𝐒𝐓𝐔𝐒")
       .replace(/Shizu AI/gi, "Christus AI")
       .replace(/Shizuka AI/gi, "Christus AI")
       .replace(/Shizuka/gi, "Christus AI")
